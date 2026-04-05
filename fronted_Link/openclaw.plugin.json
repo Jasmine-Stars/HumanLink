@@ -1,0 +1,73 @@
+{
+  "id": "humanlink",
+  "name": "HumanLink",
+  "description": "Hardware biometric authorization gate for high-risk tool calls via HumanLink protocol (ESP32 U-stick + fingerprint).",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "sdkUrl": {
+        "type": "string"
+      },
+      "fallback": {
+        "type": "string",
+        "enum": ["deny", "ui", "allow"]
+      },
+      "timeoutSeconds": {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 120
+      },
+      "riskPolicy": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "semanticRules": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "amountThresholdCents": {
+                "type": "number",
+                "minimum": 0
+              },
+              "amountFields": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          },
+          "highRiskTools": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "autoApproveTools": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "highRiskPathPatterns": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "uiHints": {
+    "sdkUrl": {
+      "label": "SDK URL",
+      "help": "Base URL of the HumanLink SDK daemon (default: http://127.0.0.1:8765)"
+    },
+    "fallback": {
+      "label": "Fallback Policy",
+      "help": "What to do when the HumanLink device is unavailable: deny (block), ui (fall back to OpenClaw UI approval), allow (permit execution)"
+    },
+    "timeoutSeconds": {
+      "label": "Timeout (seconds)",
+      "help": "How long to wait for biometric response before applying fallback (default: 30)"
+    },
+    "riskPolicy": {
+      "label": "Risk Policy",
+      "help": "Configure which tools require HumanLink authorization"
+    }
+  }
+}

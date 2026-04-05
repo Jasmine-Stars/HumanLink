@@ -1,0 +1,26 @@
+后端目录（Python）
+d:\Project\HumanLink\HumanLink
+关键文件：server.py
+前端插件目录（TS）
+d:\Project\HumanLink\HumanLink_openclaw前端
+关键文件：hook.ts、sdk-client.ts、types.ts
+所以“她们文件不在 HumanLink 里”是正常的，因为这是另一个目录/仓库。
+
+调用链是这样连上的：
+
+前端 index.ts 注册 before_tool_call
+hook.ts 触发高风险时调用 sdkClient.approve(...)
+sdk-client.ts 发 HTTP 到 POST {sdkUrl}/auth/approval
+后端 server.py 的 /auth/approval 路由调用 humanlink_approval(...)
+你当时测试怎么跑的：
+
+函数级测试脚本在后端目录：
+test_humanlink_approval.py
+运行命令：
+python scripts/test_humanlink_approval.py --mode direct（不依赖 FastAPI）
+python scripts/test_humanlink_approval.py --mode http --base-url http://127.0.0.1:8765（走真实接口）
+快速定位这两边文件可用：
+
+Get-Item d:\Project\HumanLink\HumanLink\scripts\test_humanlink_approval.py
+Get-Item d:\Project\HumanLink\HumanLink_openclaw前端\src\hook.ts
+如果你要，我可以再给你一张“前端仓库如何单独提交、后端仓库如何单独提交”的最短 git 操作清单。
