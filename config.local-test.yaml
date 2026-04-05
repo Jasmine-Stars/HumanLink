@@ -1,0 +1,26 @@
+hardware:
+  serial_port: "/dev/cu.usbserial-0001"
+  usb_baud: 115200
+
+protocol:
+  version: "0.3"
+
+verification:
+  chain_check: "skip"
+  max_age_seconds: 30
+  min_match_score: 100
+  trust_policy: "permissive"
+  enforce_device_binding: true
+
+gateway:
+  mode: "local"
+
+api:
+  host: "127.0.0.1"
+  port: 8765
+
+device:
+  user_id: "local-user"
+
+db:
+  path: "~/.humanlink/humanlink-local-test.db"
